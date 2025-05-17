@@ -1,7 +1,6 @@
 export default {
   async fetch() {
-    return new Response(
-      `<?xml version="1.0"?>
+    return new Response(`
       <rss version="2.0">
         <channel>
           <title>Fake Server Status</title>
@@ -13,10 +12,9 @@ export default {
             <description>This is a test incident from Zapier setup.</description>
           </item>
         </channel>
-      </rss>`,
-      {
-        headers: { "Content-Type": "application/rss+xml" }
-      }
-    );
+      </rss>
+    `, {
+      headers: { "Content-Type": "application/rss+xml" }
+    });
   }
 }
