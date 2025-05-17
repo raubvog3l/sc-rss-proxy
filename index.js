@@ -1,23 +1,18 @@
 const express = require('express');
+const fetch = require('node-fetch');
 const app = express();
 
-app.get('/', (req, res) => {
-  const xml = `<?xml version="1.0"?>
-  <rss version="2.0">
-    <channel>
-      <title>Fake Server Status</title>
-      <item>
-        <title>[TEST] Server Down</title>
-        <link>https://robertsspaceindustries.com</link>
-        <pubDate>${new Date().toUTCString()}</pubDate>
-        <guid>${Date.now()}</guid>
-        <description>This is a test incident from Zapier setup.</description>
-      </item>
-    </channel>
-  </rss>`;
+app.get('/', async (req, res) => {
+  const response = await fetch('https://status.robertsspaceindustries.com/history.rss', {
+    headers: {
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
+      'Accept': 'application/rss+xml',
+    },
+  });
 
+  const body = await response.text();
   res.set('Content-Type', 'application/rss+xml');
-  res.send(xml);
+  res.send(body);
 });
 
 const PORT = process.env.PORT || 3000;
